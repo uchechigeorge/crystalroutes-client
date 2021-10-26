@@ -1,0 +1,35 @@
+<ion-content>
+  <div class="container">
+
+    <div class="form-container">
+      <form [formGroup]="formGroup" class="login-form">
+
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Username</mat-label>
+          <input type="text" matInput formControlName="username" placeholder="Username" autocomplete="off">
+          <mat-error *ngIf="formGroup.get('username').hasError('required')">
+            Field is <strong>required</strong> 
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Password</mat-label>
+          <input [type]="passwordVisible ? 'text' : 'password'" matInput formControlName="password" placeholder="Password">
+          <button (click)="passwordVisible = !passwordVisible" mat-icon-button matSuffix>
+            <mat-icon>{{ passwordVisible ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="formGroup.get('password').hasError('required')">
+            Field is <strong>required</strong> 
+          </mat-error>
+        </mat-form-field>
+
+        <br>
+        <button class="btn" mat-flat-button color="primary" (click)="login()" [disabled]="formGroup.invalid">
+          <ion-spinner *ngIf="loggingIn" name="crescent"></ion-spinner>
+          <ion-text *ngIf="!loggingIn">
+            Login
+          </ion-text></button>
+      </form>    
+    </div>
+  </div>
+</ion-content>

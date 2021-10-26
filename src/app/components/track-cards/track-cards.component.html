@@ -1,0 +1,14 @@
+<div class="card">
+  <p class="code">{{ cardTitle }}</p>
+  <p class="details" *ngFor="let detail of details">
+    <span class="key">{{ detail.key }}</span>: 
+    <span class="value">{{ detail.value }}</span>
+  </p>
+  
+  <span class="indicator" [matTooltip]="statusText" [style.backgroundColor]="'var(--ion-color-' + statusColor +')'"></span>
+
+  <div class="btn-container">
+    <a [routerLink]="[editUrl]" mat-flat-button  color="primary">{{ editBtnText }}</a>
+    <button (click)="deleteRecord($event)" mat-flat-button color="warn">{{ deleteBtnText }}</button>
+  </div>
+</div>

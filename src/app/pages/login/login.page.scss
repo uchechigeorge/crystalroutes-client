@@ -1,0 +1,56 @@
+ion-content::part(background){
+  background: var(--ion-color-primary-shade) url("../../../assets/images/map-dots.png") repeat;
+  background-size: contain;
+}
+
+.container{
+  color: #000;
+  width: 90%;
+  max-width: 700px;
+  height: 400px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 20px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .form-container {
+    display: flex;
+    width: 100%;
+
+    .login-form {
+      min-width: 150px;
+      max-width: 500px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      margin: 0 auto;
+      padding: 10px;
+    }
+    
+    .input-full-width {
+      width: 100%;
+      color: #000;
+    }
+
+    .btn{
+      padding: 5px 20px;
+      min-width: 90px;
+      min-height: 45px;
+      
+      ion-spinner{
+        --color: #fff;
+      }
+      ion-text{
+        font-size: 20px;
+      }
+
+    }
+  }
+}

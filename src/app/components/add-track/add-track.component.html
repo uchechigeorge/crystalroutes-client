@@ -1,0 +1,136 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Add Tracking Record</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container ion-padding">
+
+    <div class="form">
+      <form [formGroup]="formGroup">
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Origin</mat-label>
+          <input type="text" matInput formControlName="origin" autocomplete="off">
+          <mat-error *ngIf="formGroup.get('origin').hasError('required')">
+            Field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Destination</mat-label>
+          <input type="text" matInput formControlName="destination" autocomplete="off">
+          <mat-error *ngIf="formGroup.get('destination').hasError('required')">
+            Field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Shipping Method</mat-label>
+          <input type="text" matInput formControlName="shipVia" autocomplete="off">
+          <mat-error *ngIf="formGroup.get('shipVia').hasError('required')">
+            Field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Delivery Fee</mat-label>
+          <input type="text" matInput formControlName="deliveryFees" autocomplete="off">
+          <mat-error *ngIf="formGroup.get('deliveryFees').hasError('required')">
+            Field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Shipping Date</mat-label>
+          <input matInput formControlName="shippingDate" [matDatepicker]="shippingPicker">
+          <mat-datepicker-toggle matSuffix [for]="shippingPicker">
+            <mat-icon matDatepickerToggleIcon>mouse</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #shippingPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Delivery Date</mat-label>
+          <input matInput formControlName="deliveryDate" [matDatepicker]="deliveryPicker">
+          <mat-datepicker-toggle matSuffix [for]="deliveryPicker">
+            <mat-icon matDatepickerToggleIcon>mouse</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #deliveryPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Sender Name</mat-label>
+          <input type="text" matInput formControlName="senderName" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Sender Phone</mat-label>
+          <input type="text" matInput formControlName="senderPhone" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Sender Address</mat-label>
+          <input type="text" matInput formControlName="senderAddress" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Sender Email</mat-label>
+          <input type="text" matInput formControlName="senderEmail" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Receiver Name</mat-label>
+          <input type="text" matInput formControlName="receiverName" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Receiver Phone</mat-label>
+          <input type="text" matInput formControlName="receiverPhone" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Receiver Address</mat-label>
+          <input type="text" matInput formControlName="receiverAddress" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Receiver Email</mat-label>
+          <input type="text" matInput formControlName="receiverEmail" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Current Location</mat-label>
+          <input type="text" matInput formControlName="currentLocation" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Type</mat-label>
+          <input type="text" matInput formControlName="type" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Description</mat-label>
+          <input type="text" matInput formControlName="description" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Weight</mat-label>
+          <input type="text" matInput formControlName="weight" autocomplete="off">
+        </mat-form-field>
+
+        <button class="btn" mat-flat-button color="primary" (click)="addTracking()" [disabled]="formGroup.invalid">
+          <ion-spinner *ngIf="editing" name="crescent"></ion-spinner>
+          <ion-text *ngIf="!editing">
+            {{ btnText }}
+          </ion-text>
+        </button>
+
+        <div class="ion-text-center">
+          <ion-text color="danger">{{ errText }}</ion-text>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</ion-content>

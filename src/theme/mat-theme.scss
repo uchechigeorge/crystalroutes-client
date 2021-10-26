@@ -1,0 +1,54 @@
+$custom-palette: (
+ 50: #e3f2ff,
+ 100: #bdddff,
+ 200: #91c8ff,
+ 300: #64b2ff,
+ 400: #3290ff,
+ 500: #3290ff,
+ 600: #3881ff,
+ 700: #3a6eea,
+ 800: #3a5cd7,
+ 900: #3939b7,
+ // ... continues to 900
+ contrast: (
+   50: rgba(white, 1),
+   100: rgba(white, 1),
+   200: rgba(white, 1),
+   300: rgba(white, 1),
+   400: rgba(white, 1),
+   500: rgba(white, 1),
+   600: rgba(white, 1),
+   700: rgba(white, 1),
+   800: rgba(white, 1),
+   900: rgba(white, 1),
+   // ... continues to 900
+ )
+);
+
+@use '~@angular/material' as mat;
+
+@include mat.core();
+
+$my-primary: mat.define-palette($custom-palette, 500);
+$my-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+ )
+));
+
+// Emit theme-dependent styles for common features used across multiple components.
+@include mat.core-theme($my-theme);
+
+// Emit styles for MatButton based on `$my-theme`. Because the configuration
+// passed to `define-light-theme` omits typography, `button-theme` will not
+// emit any typography styles.
+@include mat.button-theme($my-theme);
+@include mat.input-theme($my-theme);
+@include mat.form-field-theme($my-theme);
+@include mat.toolbar-theme($my-theme);
+@include mat.datepicker-theme($my-theme);
+
+// Include the theme mixins for other components you use here.

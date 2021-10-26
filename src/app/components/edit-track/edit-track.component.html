@@ -1,0 +1,276 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Manage Tracking Records</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container ion-padding">
+    <div class="header">
+      <h2 class="">
+        {{ id }}
+        <span class="indicator" [matTooltip]="deliveryStatusText" [style.backgroundColor]="'var(--ion-color-' + deliveryStatusColor +')'"></span>
+      </h2>
+
+      <br>
+      <div class="blocks">
+        <div class="block-indicator" 
+          *ngFor="let option of deliveryStatusOptions"
+          [ngClass]="option.color" [class.active]="option?.value == this.details?.deliveryStatus">
+          <p class="indicator-text">
+            <ion-text>{{ option.text }}</ion-text>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form">
+      <form [formGroup]="formGroup">
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Origin</mat-label>
+          <input type="text" matInput formControlName="origin" autocomplete="off">
+          <mat-error *ngIf="formGroup.get('origin').hasError('required')">
+            Field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Destination</mat-label>
+          <input type="text" matInput formControlName="destination" autocomplete="off">
+          <mat-error *ngIf="formGroup.get('destination').hasError('required')">
+            Field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Shipping Method</mat-label>
+          <input type="text" matInput formControlName="shipVia" autocomplete="off">
+          <mat-error *ngIf="formGroup.get('shipVia').hasError('required')">
+            Field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Delivery Fee</mat-label>
+          <input type="text" matInput formControlName="deliveryFees" autocomplete="off">
+          <mat-error *ngIf="formGroup.get('deliveryFees').hasError('required')">
+            Field is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Shipping Date</mat-label>
+          <input matInput formControlName="shippingDate">
+          <input type="hidden" (dateInput)="dateChange($event, 'shippingDate')" [matDatepicker]="shippingPicker" [value]="shippingDate">
+          <mat-datepicker-toggle matSuffix [for]="shippingPicker">
+            <mat-icon matDatepickerToggleIcon>today</mat-icon>
+          </mat-datepicker-toggle>
+          <button matSuffix mat-icon-button (click)="shippingTimePicker.open()">
+            <mat-icon style="color: rgba(0, 0, 0, 0.6);">alarm</mat-icon>
+          </button>
+          <mat-datepicker #shippingPicker></mat-datepicker>
+          <ion-datetime [value]="shippingTime" (ionChange)="timeChange($event, 'shippingDate')" #shippingTimePicker displayFormat="h:mm A" class="ion-hide"></ion-datetime>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Delivery Date</mat-label>
+          <input matInput formControlName="deliveryDate" readonly>
+          <input type="hidden" (dateInput)="dateChange($event, 'deliveryDate')" [matDatepicker]="deliveryPicker" [value]="deliveryDate">
+          <mat-datepicker-toggle matSuffix [for]="deliveryPicker">
+            <mat-icon matDatepickerToggleIcon>today</mat-icon>
+          </mat-datepicker-toggle>
+          <button matSuffix mat-icon-button (click)="deliveryTimePicker.open()">
+            <mat-icon style="color: rgba(0, 0, 0, 0.6);">alarm</mat-icon>
+          </button>
+          <mat-datepicker #deliveryPicker></mat-datepicker>
+          <ion-datetime [value]="deliveryTime" (ionChange)="timeChange($event, 'deliveryDate')" #deliveryTimePicker displayFormat="h:mm A" class="ion-hide"></ion-datetime>
+        </mat-form-field>
+
+        <div mat-calendar-body></div>
+
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Delivery Status</mat-label>
+          <mat-select formControlName="deliveryStatus">
+            <mat-option *ngFor="let option of deliveryStatusOptions" [value]="option.value">
+              {{option.text}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Sender Name</mat-label>
+          <input type="text" matInput formControlName="senderName" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Sender Phone</mat-label>
+          <input type="text" matInput formControlName="senderPhone" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Sender Address</mat-label>
+          <input type="text" matInput formControlName="senderAddress" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Sender Email</mat-label>
+          <input type="text" matInput formControlName="senderEmail" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Receiver Name</mat-label>
+          <input type="text" matInput formControlName="receiverName" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Receiver Phone</mat-label>
+          <input type="text" matInput formControlName="receiverPhone" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Receiver Address</mat-label>
+          <input type="text" matInput formControlName="receiverAddress" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-half-width">
+          <mat-label>Receiver Email</mat-label>
+          <input type="text" matInput formControlName="receiverEmail" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Current Location</mat-label>
+          <input type="text" matInput formControlName="currentLocation" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Type</mat-label>
+          <input type="text" matInput formControlName="type" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Description</mat-label>
+          <input type="text" matInput formControlName="description" autocomplete="off">
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="input-full-width">
+          <mat-label>Weight</mat-label>
+          <input type="text" matInput formControlName="weight" autocomplete="off">
+        </mat-form-field>
+
+        <button class="btn" mat-flat-button color="primary" (click)="updateTracking()" [disabled]="formGroup.invalid">
+          <ion-spinner *ngIf="editing" name="crescent"></ion-spinner>
+          <ion-text *ngIf="!editing">
+            {{ btnText }}
+          </ion-text>
+        </button>
+
+        <div class="ion-text-center">
+          <strong><ion-text color="danger">{{ errText }}</ion-text></strong>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="table-container" style="overflow-x: auto;">
+
+      <table mat-table [dataSource]="activityDataSource" style="width: 100%; min-width: 500px;" class="mat-elevation-z8">
+        
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{ element.position }} </td>
+        </ng-container>
+        <ng-container matColumnDef="presentDate">
+          <th mat-header-cell *matHeaderCellDef> Date </th>
+          <td mat-cell *matCellDef="let element"> {{ element.presentDate }} </td>
+        </ng-container>
+        <ng-container matColumnDef="activity">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+        </ng-container>
+        <ng-container matColumnDef="location">
+          <th mat-header-cell *matHeaderCellDef> Current Location </th>
+          <td mat-cell *matCellDef="let element"> {{ element.location }} </td>
+        </ng-container>
+        <ng-container matColumnDef="awaitingLocation">
+          <th mat-header-cell *matHeaderCellDef> Awaiting Location </th>
+          <td mat-cell *matCellDef="let element"> {{ element.awaitingLocation }} </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>  </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="deleteActivity(element.trackingActivityId)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+      </table>
+
+      <mat-paginator
+        [length]="activityLength"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20, 30]"
+        (page)="pageEvent($event)"
+      >
+      </mat-paginator>
+    </div>
+
+    <div class="container ion-padding">
+  
+      <h3 class="ion-text-center">Add tracker</h3>
+
+      <div class="form">
+        <form [formGroup]="activityForm">
+
+          <mat-form-field appearance="fill" class="input-full-width">
+            <mat-label>Description</mat-label>
+            <input type="text" matInput formControlName="description" autocomplete="off">
+            <mat-error *ngIf="activityForm.get('description').hasError('required')">
+              Field is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="input-full-width">
+            <mat-label>Current Location</mat-label>
+            <input type="text" matInput formControlName="location" autocomplete="off">
+          </mat-form-field>
+          
+          <mat-form-field appearance="fill" class="input-full-width">
+            <mat-label>Awaiting Location</mat-label>
+            <input type="text" matInput formControlName="awaitingLocation" autocomplete="off">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="input-full-width">
+            <mat-label>Date</mat-label>
+            <input matInput formControlName="presentDate" readonly>
+            <input type="hidden" (dateInput)="dateChange($event, 'activity')" [matDatepicker]="activityDatePicker" [value]="activityDate">
+            <mat-datepicker-toggle matSuffix [for]="activityDatePicker">
+              <mat-icon matDatepickerToggleIcon>today</mat-icon>
+            </mat-datepicker-toggle>
+            <button matSuffix mat-icon-button (click)="activityTimePicker.open()">
+              <mat-icon style="color: rgba(0, 0, 0, 0.6);">alarm</mat-icon>
+            </button>
+            <mat-datepicker #activityDatePicker></mat-datepicker>
+            <ion-datetime [value]="deliveryTime" (ionChange)="timeChange($event, 'activity')" #activityTimePicker displayFormat="h:mm A" class="ion-hide"></ion-datetime>
+          </mat-form-field>
+          
+    
+          <button class="btn" mat-flat-button color="primary" (click)="addTrackingActivity()" [disabled]="activityForm.invalid">
+            <ion-spinner *ngIf="editingActivity" name="crescent"></ion-spinner>
+            <ion-text *ngIf="!editingActivity">
+              {{ btnTextActivity }}
+            </ion-text>
+          </button>
+
+          <div class="ion-text-center ion-margin-top">
+            <strong><ion-text color="danger">{{ errTextActivity }}</ion-text></strong>
+          </div>
+  
+        </form>
+      </div>  
+    </div>
+
+  </div>
+</ion-content>

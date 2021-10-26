@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Tracking Records</ion-title>
+
+    <ion-buttons slot="secondary">
+      <button (click)="logout()" mat-icon-button matTooltip="Log Out">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container ion-padding">
+
+    <div class="err ion-text-center" *ngIf="loadingTrack">
+      <ion-spinner name="bubbles">No records</ion-spinner>
+    </div>
+
+    <ion-grid>
+      <ion-row class="ion-justify-content-start">
+        <ion-col class="ion-padding ion-align-items-start" size="12" *ngFor="let card of cards">
+          <app-track-cards 
+          [cardTitle]="card.trackingCode"
+          [details]="[
+              { key: 'Origin', value: card.origin }, 
+              { key: 'Destination', value: card.destination },
+              { key: 'Date sent', value: getDate(card.shippingDate) }
+            ]"
+          [statusText]="card.statusText"
+          [statusColor]="card.statusColor"
+          (deleteAction)="deleteRecord(card?.trackingId)"
+          [editUrl]="'/dashboard/edit/' + card.trackingCode"
+            
+          >
+        </app-track-cards>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <mat-paginator
+      [length]="length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[10, 30, 50]"
+      (page)="pageEvent($event)"
+      aria-label="Select page">
+    </mat-paginator>
+    
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <a routerLink="/dashboard/add" mat-fab color="primary">
+      <mat-icon>add</mat-icon>
+    </a>
+  </ion-fab>
+</ion-content>
