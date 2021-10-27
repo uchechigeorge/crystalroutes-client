@@ -43,20 +43,30 @@
         
         <mat-form-field appearance="fill" class="input-full-width">
           <mat-label>Shipping Date</mat-label>
-          <input matInput formControlName="shippingDate" [matDatepicker]="shippingPicker">
+          <input matInput formControlName="shippingDate">
+          <input type="hidden" (dateInput)="dateChange($event, 'shippingDate')" [matDatepicker]="shippingPicker" [value]="shippingDate">
           <mat-datepicker-toggle matSuffix [for]="shippingPicker">
-            <mat-icon matDatepickerToggleIcon>mouse</mat-icon>
+            <mat-icon matDatepickerToggleIcon>today</mat-icon>
           </mat-datepicker-toggle>
+          <button matSuffix mat-icon-button (click)="shippingTimePicker.open()">
+            <mat-icon style="color: rgba(0, 0, 0, 0.6);">alarm</mat-icon>
+          </button>
           <mat-datepicker #shippingPicker></mat-datepicker>
+          <ion-datetime [value]="shippingTime" (ionChange)="timeChange($event, 'shippingDate')" #shippingTimePicker displayFormat="h:mm A" class="ion-hide"></ion-datetime>
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="input-full-width">
           <mat-label>Delivery Date</mat-label>
-          <input matInput formControlName="deliveryDate" [matDatepicker]="deliveryPicker">
+          <input matInput formControlName="deliveryDate" readonly>
+          <input type="hidden" (dateInput)="dateChange($event, 'deliveryDate')" [matDatepicker]="deliveryPicker" [value]="deliveryDate">
           <mat-datepicker-toggle matSuffix [for]="deliveryPicker">
-            <mat-icon matDatepickerToggleIcon>mouse</mat-icon>
+            <mat-icon matDatepickerToggleIcon>today</mat-icon>
           </mat-datepicker-toggle>
+          <button matSuffix mat-icon-button (click)="deliveryTimePicker.open()">
+            <mat-icon style="color: rgba(0, 0, 0, 0.6);">alarm</mat-icon>
+          </button>
           <mat-datepicker #deliveryPicker></mat-datepicker>
+          <ion-datetime [value]="deliveryTime" (ionChange)="timeChange($event, 'deliveryDate')" #deliveryTimePicker displayFormat="h:mm A" class="ion-hide"></ion-datetime>
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="input-half-width">

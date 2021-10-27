@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +21,7 @@ export class DashboardPage implements OnInit {
     private router: Router,
     private api: ApiService,
     private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -85,12 +86,16 @@ export class DashboardPage implements OnInit {
       buttons: [
         { text: "Cancel", role: "cancel" },
         { text: "OK", handler: async () => {
+
+          await this.showLoader();
+
           this.api.deleteTracking({ trackingId: id })
           .then(() => {
             this.reset();
             this.getTrackRecords();
           })
           .finally(async () => {
+            this.dismissLoader();            
             alert.dismiss();
           })
         } 
@@ -114,6 +119,19 @@ export class DashboardPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async showLoader() {
+    const loading = await this.loadingCtrl.create({
+      spinner: "bubbles",
+      message: "Please wait...",
+    });
+
+    await loading.present();
+  }
+
+  dismissLoader() {
+    this.loadingCtrl.dismiss();
   }
 
 

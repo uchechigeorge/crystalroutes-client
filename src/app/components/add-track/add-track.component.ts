@@ -57,7 +57,9 @@ export class AddTrackComponent implements OnInit {
 
     this.editing = true;
     
-    this.api.addTracking(this.formGroup.value)
+    this.api.addTracking({...this.formGroup.value,
+      deliveryDate: new Date(this.formGroup.get('deliveryDate').value).toISOString(),
+      shippingDate: new Date(this.formGroup.get('shippingDate').value).toISOString(),})
     .then((res) => {
       this.errText = "";
       this.router.navigateByUrl("dashboard");
@@ -77,6 +79,66 @@ export class AddTrackComponent implements OnInit {
     })
   }
 
+  //#region Date manipulation
+
+  deliveryTime;
+  deliveryDate;
+  
+  shippingTime;
+  shippingDate;
+
+  dateChange(e, option: InputDateOptions) {
+    if(option == "deliveryDate") {
+      this.deliveryDate = e.value;
+      this.getDeliveryFullDate(this.deliveryDate, this.deliveryTime, option);
+    }
+    else if(option == "shippingDate") {
+      this.shippingDate = e.value;
+      this.getDeliveryFullDate(this.shippingDate, this.shippingTime, option);
+    }
+
+  }
+  
+  timeChange(e, option: InputDateOptions) {
+    if(option == "deliveryDate") {
+      this.deliveryTime = e.detail.value;
+      this.getDeliveryFullDate(this.deliveryDate, this.deliveryTime, option);
+    }
+    else if(option == "shippingDate") {
+      this.shippingTime = e.detail.value;
+      this.getDeliveryFullDate(this.shippingDate, this.shippingTime, option);
+    }
+  }
+  
+  getOffsetDate(value) {
+    const offset = new Date().getTimezoneOffset();
+    const date = new Date(new Date(value).getTime() - (offset * 60 * 1000));
+
+    return date;
+  }
+
+  getDeliveryFullDate(date: string, time: string, input: InputDateOptions) {
+    var timeObj = new Date(time);
+    var timeString = this.isNullOrWhitespace(date) || this.isNullOrWhitespace(time) ? "" : timeObj.getHours() + ':' + timeObj.getMinutes() + ':00';
+    var dateObj = new Date(this.getDate(date) + ' ' + timeString);
+    
+    const dateString = this.isNullOrWhitespace(date) ? "" : dateObj.toLocaleString();
+
+    this.formGroup.get(input).setValue(dateString);
+
+    return dateObj;
+  }
+
+  getDate(value) {
+    if(this.isNullOrWhitespace(value)) return "";
+    const date = new Date(value);
+    return date.toDateString();
+  }
+
+
+
+  //#endregion
+
   async showErrAlert(message: string) {
     const alert = await this.alertCtrl.create({
       message,
@@ -88,4 +150,9 @@ export class AddTrackComponent implements OnInit {
     await alert.present();
   }
 
+  isNullOrWhitespace(value: string) {
+    return !value || value.toString()?.trim() == "";
+  }
 }
+
+type InputDateOptions = "deliveryDate" | "shippingDate";

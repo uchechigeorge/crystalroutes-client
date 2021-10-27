@@ -86,8 +86,6 @@
           <ion-datetime [value]="deliveryTime" (ionChange)="timeChange($event, 'deliveryDate')" #deliveryTimePicker displayFormat="h:mm A" class="ion-hide"></ion-datetime>
         </mat-form-field>
 
-        <div mat-calendar-body></div>
-
         <mat-form-field appearance="fill" class="input-full-width">
           <mat-label>Delivery Status</mat-label>
           <mat-select formControlName="deliveryStatus">

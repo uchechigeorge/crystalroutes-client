@@ -125,7 +125,7 @@ export class EditTrackComponent implements OnInit {
           awaitingLocation: activity.awaitingLocation,
           description: activity.description,
           location: activity.location,
-          presentDate: this.getOffsetDate(activity.presentDate),
+          presentDate: this.getOffsetDate(activity.presentDate).toLocaleString(),
           trackingActivityId: activity.trackingActivityId,
           trackingCode: activity.trackingCode,
         });
@@ -301,8 +301,9 @@ export class EditTrackComponent implements OnInit {
   
   getOffsetDate(value) {
     const offset = new Date().getTimezoneOffset();
-    const date = new Date(new Date(value).getTime() + (-offset * 60 * 1000));
-    return date.toLocaleString();
+    const date = new Date(new Date(value).getTime() - (offset * 60 * 1000));
+
+    return date;
   }
 
   getDeliveryFullDate(date: string, time: string, input: InputDateOptions) {
@@ -328,11 +329,11 @@ export class EditTrackComponent implements OnInit {
     return date.toDateString();
   }
 
-  getTime(value) {
-    if(this.isNullOrWhitespace(value)) return "";
-    const time = new Date(value).toLocaleTimeString();
-    return time;
-  }
+  // getTime(value) {
+  //   if(this.isNullOrWhitespace(value)) return "";
+  //   const time = new Date(value).toLocaleTimeString();
+  //   return time;
+  // }
 
   //#endregion
 
@@ -372,17 +373,17 @@ export class EditTrackComponent implements OnInit {
   }
 
   setDeliveryDate() {
-    const date = this.isNullOrWhitespace(this.details?.deliveryDate) ? "" : this.getOffsetDate(this.details?.deliveryDate);
+    const date: any = this.isNullOrWhitespace(this.details?.deliveryDate) ? "" : this.getOffsetDate(this.details?.deliveryDate).toLocaleString();
     this.formGroup.get('deliveryDate').setValue(date);
     this.deliveryTime = this.isNullOrWhitespace(this.details?.deliveryDate) ? "" : new Date(this.getOffsetDate(this.details?.deliveryDate)).toISOString();
-    this.deliveryDate = this.details?.deliveryDate;
+    this.deliveryDate = this.isNullOrWhitespace(this.details?.deliveryDate) ? "" : new Date(this.getOffsetDate(this.details?.deliveryDate));
   }
   
   setShippingDate() {
-    const date = this.isNullOrWhitespace(this.details?.shippingDate) ? "" : this.getOffsetDate(this.details?.shippingDate);
+    const date = this.isNullOrWhitespace(this.details?.shippingDate) ? "" : this.getOffsetDate(this.details?.shippingDate).toLocaleString();
     this.formGroup.get('shippingDate').setValue(date);
-    this.shippingTime = new Date(this.getOffsetDate(this.details?.shippingDate)).toISOString();
-    this.shippingDate = this.details?.shippingDate;
+    this.shippingTime = this.isNullOrWhitespace(this.details?.shippingDate) ? "" : new Date(this.getOffsetDate(this.details?.shippingDate)).toISOString();
+    this.shippingDate = this.isNullOrWhitespace(this.details?.shippingDate) ? "" : new Date(this.getOffsetDate(this.details?.shippingDate));;
   }
 
   isNullOrWhitespace(value: string) {
