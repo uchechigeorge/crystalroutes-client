@@ -7,7 +7,7 @@
 
   <base href="/" />
 
-  <meta name="color-scheme" content="light dark" />
+  <meta name="color-scheme" content="light only" />
   <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
@@ -23,7 +23,23 @@
 </head>
 
 <body>
+  
   <app-root></app-root>
+
+  <div id="google_translate_element" style="position: absolute; right: 0; visibility: hidden;"></div>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() { 
+      new google.translate.TranslateElement(
+        {pageLanguage: 'en'},
+        'google_translate_element'
+      );
+    } 
+  </script> 
+  
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer>
+  </script> 
+
 </body>
 
 </html>

@@ -1,0 +1,20 @@
+<div>
+  <input
+    id="username-input"
+    [value]="username"
+    (input)="updateInput($event, 0)"
+    placeholder="Username"
+  />
+  <br />
+  <input
+    id="password-input"
+    [value]="password"
+    (input)="updateInput($event, 1)"
+    placeholder="Password"
+  />
+  <br />
+
+  <button id="login-button" (click)="onLogin()" [disabled]="hasError">
+    Submit
+  </button>
+</div>

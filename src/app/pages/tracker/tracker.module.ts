@@ -8,6 +8,7 @@ import { TrackerPageRoutingModule } from './tracker-routing.module';
 
 import { TrackerPage } from './tracker.page';
 import { MaterialModule } from 'src/app/helpers/material.module';
+import { LoginPageComponent } from 'src/app/components/test/test.component';
 
 @NgModule({
   imports: [
@@ -16,8 +17,8 @@ import { MaterialModule } from 'src/app/helpers/material.module';
     IonicModule,
     TrackerPageRoutingModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
   ],
-  declarations: [TrackerPage]
+  declarations: [TrackerPage, LoginPageComponent],
 })
 export class TrackerPageModule {}
